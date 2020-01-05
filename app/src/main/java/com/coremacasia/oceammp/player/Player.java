@@ -33,6 +33,7 @@ public class Player extends AppCompatActivity {
         songName = getIntent().getStringExtra("songName");
         songPath = getIntent().getStringExtra("songPath");
         Log.d(TAG, "onCreate: " + songName);
+        tSongName.setText(songName);
 
         mediaPlayer = new MediaPlayer();
 
@@ -40,44 +41,24 @@ public class Player extends AppCompatActivity {
             mediaPlayer.reset();
             mediaPlayer.setDataSource(songPath);
             mediaPlayer.prepare();
-            mediaPlayer.start();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
 
 
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(final MediaPlayer mediaPlayer) {
-                if (mediaPlayer.isPlaying()) {
-                    isPaused = !mediaPlayer.isPlaying() && mediaPlayer.getCurrentPosition() > 1;
-
-                    Log.d(TAG, "onPrepared: " + "Playing");
-                    Toast.makeText(Player.this, "Playing", Toast.LENGTH_SHORT).show();
-                    iPlayBtn.setImageDrawable(getResources().getDrawable(R.drawable.pause_icon));
-                    iPlayBtn.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View view) {
-                            mediaPlayer.pause();
-                            iPlayBtn.setImageDrawable(getResources().getDrawable(R.drawable.play_icon));
-                            isPaused = true;
-                        }
-                    });
-                } else {
-                    Log.d(TAG, "onPrepared: " + "Paused");
-                    iPlayBtn.setImageDrawable(getResources().getDrawable(R.drawable.play_icon));
-
-                }
-            }
-        });
-
         iPlayBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (isPaused = true) {
-                    mediaPlayer.start();
+                if (!mediaPlayer.isPlaying()) {
+                    Log.d(TAG, "onPrepared: " + "Playing");
+                    Toast.makeText(Player.this, "Playing", Toast.LENGTH_SHORT).show();
                     iPlayBtn.setImageDrawable(getResources().getDrawable(R.drawable.pause_icon));
+                    mediaPlayer.start();
+                } else {
+                    mediaPlayer.pause();
+                    Log.d(TAG, "onPrepared: " + "Paused");
+                    iPlayBtn.setImageDrawable(getResources().getDrawable(R.drawable.play_icon));
 
                 }
             }
