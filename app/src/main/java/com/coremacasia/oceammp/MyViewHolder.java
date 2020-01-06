@@ -45,15 +45,9 @@ class MyViewHolder extends RecyclerView.ViewHolder {
 
 
 
-        mpintro = MediaPlayer.create(itemView.getContext(),
-               Uri.parse(tempAudioList.get(i).getPath()));
-
-
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //mpintro.start();
 
                 Intent intent=new Intent(itemView.getContext(), PlaySong.class);
                 intent.putExtra("songName",tempAudioList.get(i).getName());

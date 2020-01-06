@@ -60,10 +60,11 @@ public class PlaySong extends AppCompatActivity {
         iNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pos<listSize){
+                if(pos<listSize-1){
                     mediaPlayer.stop();
                     initializeMediaPlayer(songPosition + 1);
-                    songPosition = songPosition + 1;
+                       songPosition = songPosition + 1;
+
                 }else {
                     mediaPlayer.stop();
                     initializeMediaPlayer(0);
@@ -213,6 +214,13 @@ public class PlaySong extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         finish();
+        mediaPlayer.stop();
         return true;
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mediaPlayer.stop();
     }
 }

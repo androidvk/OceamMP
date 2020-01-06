@@ -9,12 +9,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.view.View;
+import android.widget.LinearLayout;
 
 import com.coremacasia.oceammp.player.AudioModel;
 
@@ -26,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
     private String[] permissions;
     private RecyclerView recyclerView;
     static List<AudioModel> tempAudioList;
+    private LinearLayout click;// NU
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +37,15 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         checkPermissions();
         recyclerView = findViewById(R.id.recyclerView);
+        click=findViewById(R.id.line1);// NU
+        click.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(MainActivity.this,ViewImage.class));
+            }
+        });
+
+
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager
                 (getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);

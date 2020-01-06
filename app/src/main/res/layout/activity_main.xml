@@ -12,4 +12,12 @@
         android:layout_height="wrap_content">
 
     </androidx.recyclerview.widget.RecyclerView>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal"
+        android:id="@+id/line1"
+        android:foreground="?selectableItemBackgroundBorderless"
+        android:background="@drawable/itunes"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
 </RelativeLayout>

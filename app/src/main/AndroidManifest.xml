@@ -17,7 +17,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".player.PlaySong"></activity>
+        <activity android:name=".ViewImage"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+
+
+        <activity android:name=".player.PlaySong" />
         <activity android:name=".player.Player" />
         <activity android:name=".MainActivity">
             <intent-filter>
