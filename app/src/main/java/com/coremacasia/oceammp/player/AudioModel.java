@@ -1,7 +1,7 @@
-package com.coremacasia.oceammp;
+package com.coremacasia.oceammp.player;
 
-class AudioModel {
-    String name,album,artist,path;
+public class AudioModel {
+   private String name,album,artist,path;
 
     public String getName() {
         return name;

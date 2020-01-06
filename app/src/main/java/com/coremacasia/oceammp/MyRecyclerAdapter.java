@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.coremacasia.oceammp.player.AudioModel;
+
 import java.util.List;
 
 class MyRecyclerAdapter extends RecyclerView.Adapter {

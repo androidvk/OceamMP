@@ -16,6 +16,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 
+import com.coremacasia.oceammp.player.AudioModel;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] permissions;
     private RecyclerView recyclerView;
-    List<AudioModel> tempAudioList;
+    static List<AudioModel> tempAudioList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
-    public List<AudioModel> getAllAudioFromDevice(final Context context) {
+    public static List<AudioModel> getAllAudioFromDevice(final Context context) {
 
         tempAudioList = new ArrayList<>();
 
@@ -69,8 +71,8 @@ public class MainActivity extends AppCompatActivity {
                 audioModel.setArtist(artist);
                 audioModel.setPath(path);
 
-                Log.e("Name :" + name, " Album :" + album);
-                Log.e("Path :" + path, " Artist :" + artist);
+                //Log.e("Name :" + name, " Album :" + album);
+                //Log.e("Path :" + path, " Artist :" + artist);
 
                 tempAudioList.add(audioModel);
             }

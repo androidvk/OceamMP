@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.coremacasia.oceammp.player.AudioModel;
+import com.coremacasia.oceammp.player.PlaySong;
 import com.coremacasia.oceammp.player.Player;
 
 import java.util.List;
@@ -53,9 +55,10 @@ class MyViewHolder extends RecyclerView.ViewHolder {
 
                 //mpintro.start();
 
-                Intent intent=new Intent(itemView.getContext(), Player.class);
+                Intent intent=new Intent(itemView.getContext(), PlaySong.class);
                 intent.putExtra("songName",tempAudioList.get(i).getName());
                 intent.putExtra("songPath",tempAudioList.get(i).getPath());
+                intent.putExtra("position",i);
                 itemView.getContext().startActivity(intent);
             }
         });
