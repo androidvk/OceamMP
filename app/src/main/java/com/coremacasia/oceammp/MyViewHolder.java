@@ -2,7 +2,6 @@ package com.coremacasia.oceammp;
 
 import android.content.Intent;
 import android.media.MediaPlayer;
-import android.net.Uri;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.coremacasia.oceammp.player.AudioModel;
 import com.coremacasia.oceammp.player.PlaySong;
-import com.coremacasia.oceammp.player.Player;
 
 import java.util.List;
 

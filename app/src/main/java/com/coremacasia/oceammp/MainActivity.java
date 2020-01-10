@@ -13,6 +13,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
@@ -28,8 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] permissions;
     private RecyclerView recyclerView;
-    static List<AudioModel> tempAudioList;
-    private LinearLayout click;// NU
+    public static List<AudioModel> tempAudioList;
+    public static List<AudioModel> musicList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,23 +38,36 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         checkPermissions();
         recyclerView = findViewById(R.id.recyclerView);
-        click=findViewById(R.id.line1);// NU
-        click.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(MainActivity.this,ViewImage.class));
-            }
-        });
-
 
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager
                 (getApplicationContext());
         recyclerView.setLayoutManager(linearLayoutManager);
+        new GetMusic().execute();
 
 
-        MyRecyclerAdapter adapter = new MyRecyclerAdapter(getApplicationContext(),
-                getAllAudioFromDevice(getApplicationContext()));
-        recyclerView.setAdapter(adapter);
+    }
+
+
+    private class GetMusic extends AsyncTask<String, Integer, List<AudioModel>> {
+
+        @Override
+        protected List<AudioModel> doInBackground(String... strings) {
+            return getAllAudioFromDevice(getApplicationContext());
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected void onPostExecute(List<AudioModel> audioModels) {
+            super.onPostExecute(audioModels);
+            musicList=audioModels;
+            MyRecyclerAdapter adapter = new MyRecyclerAdapter(getApplicationContext(),
+                    audioModels);
+            recyclerView.setAdapter(adapter);
+        }
     }
 
     public static List<AudioModel> getAllAudioFromDevice(final Context context) {

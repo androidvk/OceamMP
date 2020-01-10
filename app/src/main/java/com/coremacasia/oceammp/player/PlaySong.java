@@ -50,22 +50,33 @@ public class PlaySong extends AppCompatActivity {
         Log.d(TAG, "onCreate: Position: " + songPosition);
 
         initializeMediaPlayer(songPosition);
-        useSeekBar();
-
-        Log.d(TAG, "onClick: Total Size " + MainActivity.getAllAudioFromDevice(getApplicationContext()).size());
+        Log.d(TAG, "onClick: Total Size " + MainActivity.musicList.size());
         Log.d(TAG, "onClick: Current Position" + songPosition);
-        final int listSize = MainActivity.getAllAudioFromDevice(this).size();
-        final int pos = songPosition;
+        final int listSize = MainActivity.musicList.size();
+
+
+        iPlayBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!mediaPlayer.isPlaying()) {
+                    //initializeMediaPlayer(songPosition);
+                    mediaPlayer.start();
+
+                } else {
+                    mediaPlayer.pause();
+                }
+
+            }
+        });
 
         iNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pos<listSize-1){
+                if (songPosition < listSize - 1 ) {
                     mediaPlayer.stop();
                     initializeMediaPlayer(songPosition + 1);
-                       songPosition = songPosition + 1;
-
-                }else {
+                        songPosition = songPosition + 1;
+                } else {
                     mediaPlayer.stop();
                     initializeMediaPlayer(0);
                     songPosition = 0;
@@ -77,11 +88,11 @@ public class PlaySong extends AppCompatActivity {
         iPreviousBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(pos>0){
+                if (songPosition > 0) {
                     mediaPlayer.stop();
-                    initializeMediaPlayer(songPosition -1);
+                    initializeMediaPlayer(songPosition - 1);
                     songPosition = songPosition - 1;
-                }else {
+                } else {
                     mediaPlayer.stop();
                     initializeMediaPlayer(0);
                     songPosition = 0;
@@ -96,8 +107,7 @@ public class PlaySong extends AppCompatActivity {
         mediaPlayer = new MediaPlayer();
 
         try {
-
-            List<AudioModel> songList = MainActivity.getAllAudioFromDevice(this);
+            List<AudioModel> songList = MainActivity.musicList;
             songName = songList.get(POSITION).getName();
             songPath = songList.get(POSITION).getPath();
             songName = songName.substring(0, songName.length() - 4);
@@ -105,12 +115,19 @@ public class PlaySong extends AppCompatActivity {
 
             tSongName.setText(songName);
             getSupportActionBar().setTitle(songName);
-
             mediaPlayer.setDataSource(songPath);
             mediaPlayer.prepare();
+            mediaPlayer.start();
             duration = mediaPlayer.getDuration();
 
-            playSong();
+            // Duration
+            long Mmin = (duration / 1000) / 60;
+            long Ssec = (duration / 1000) % 60;
+            if (Ssec < 10) {
+                tEndTime.setText("" + Mmin + ":0" + Ssec);
+            } else tEndTime.setText("" + Mmin + ":" + Ssec);
+
+            useSeekBar();
 
 
         } catch (IOException e) {
@@ -119,39 +136,15 @@ public class PlaySong extends AppCompatActivity {
 
     }
 
-    private void playSong() {
+    private void updateButton() {
+        if (mediaPlayer.isPlaying()) {
+            iPlayBtn.setImageDrawable(getResources()
+                    .getDrawable(R.drawable.pause_icon));
+        } else {
+            iPlayBtn.setImageDrawable(getResources()
+                    .getDrawable(R.drawable.play_icon));
+        }
 
-        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-            @Override
-            public void onPrepared(MediaPlayer mediaPlayer) {
-                mediaPlayer.start();
-            }
-        });
-        //mediaPlayer.start();
-        iPlayBtn.setImageDrawable(getResources()
-                .getDrawable(R.drawable.pause_icon));
-
-
-        iPlayBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!mediaPlayer.isPlaying()) {
-                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                        @Override
-                        public void onPrepared(MediaPlayer mediaPlayer) {
-                            mediaPlayer.start();
-                        }
-                    });
-                    iPlayBtn.setImageDrawable(getResources()
-                            .getDrawable(R.drawable.pause_icon));
-                } else {
-                    mediaPlayer.pause();
-                    iPlayBtn.setImageDrawable(getResources()
-                            .getDrawable(R.drawable.play_icon));
-                }
-
-            }
-        });
     }
 
     private void useSeekBar() {
@@ -164,6 +157,7 @@ public class PlaySong extends AppCompatActivity {
                 if (mediaPlayer != null) {
                     currentDuration = mediaPlayer.getCurrentPosition() / 1000;
                     seekBar.setProgress(currentDuration);
+                    updateButton();
                     mHandler.postDelayed(this, 100);
                 }
             }
@@ -188,13 +182,6 @@ public class PlaySong extends AppCompatActivity {
                 if (sec < 10) {
                     tStartTime.setText("" + min + ":0" + sec);
                 } else tStartTime.setText("" + min + ":" + sec);
-
-                // Duration
-                long Mmin = (duration / 1000) / 60;
-                long Ssec = (duration / 1000) % 60;
-                if (Ssec < 10) {
-                    tEndTime.setText("" + Mmin + ":0" + Ssec);
-                } else tEndTime.setText("" + Mmin + ":" + Ssec);
 
             }
 
