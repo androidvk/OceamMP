@@ -105,6 +105,9 @@ public class PlaySong extends AppCompatActivity {
 
     private void initializeMediaPlayer(int POSITION) {
         mediaPlayer = new MediaPlayer();
+        if(mediaPlayer.isPlaying()){
+            mediaPlayer.stop();
+        }
 
         try {
             List<AudioModel> songList = MainActivity.musicList;
@@ -201,7 +204,7 @@ public class PlaySong extends AppCompatActivity {
     @Override
     public boolean onSupportNavigateUp() {
         finish();
-        mediaPlayer.stop();
+        //mediaPlayer.stop();
         return true;
     }
 
